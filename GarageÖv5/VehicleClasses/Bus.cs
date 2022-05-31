@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GarageÖv5
+namespace GarageÖv5.VehicleClasses
 {
-    internal class Garage<T>where T : class
+    internal class Bus
     {
-
     }
 }

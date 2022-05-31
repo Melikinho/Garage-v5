@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace GarageÖv5
 {
-    internal class Garage<T>where T : class
+    internal class Handler
     {
-
     }
 }
