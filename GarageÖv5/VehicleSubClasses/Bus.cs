@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GarageÖv5.VehicleClasses
+namespace GarageÖv5.VehicleSubClasses
 {
-    internal class Boat : Vehicle
+    internal class Bus : Vehicle
     {
     }
 }
