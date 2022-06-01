@@ -14,7 +14,7 @@ namespace GarageÖv5.VehicleSubClasses
 
         public Boat(string color, string licenseNumber, int amountWheels, int cylinderVolume, int length) : base(color, licenseNumber, amountWheels, cylinderVolume)  
         {
-            this.Length = length;
+            Length = length;
         }
 
         public override string ToString()

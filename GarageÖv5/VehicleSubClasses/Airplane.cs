@@ -14,9 +14,9 @@ namespace GarageÖv5.VehicleSubClasses
         }
         public override string Name { get; } = "Airplane";
 
-        public Airplane(string color, string licenseNumber, int amountWheels, int cylinderVolume, int NumOfEngines) : base(color, licenseNumber, amountWheels, cylinderVolume)
+        public Airplane(string color, string licenseNumber, int amountWheels, int cylinderVolume, int numOfEngines) : base(color, licenseNumber, amountWheels, cylinderVolume)
         {
-            this.NumOfEngines = NumOfEngines;
+            NumOfEngines = numOfEngines;
         }
 
         public override string ToString()

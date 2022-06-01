@@ -15,7 +15,7 @@ namespace GarageÖv5.VehicleSubClasses
         }
         public Motorcycle(string color, string licenseNumber, int amountWheels, int cylinderVolume, double length) : base(color, licenseNumber, amountWheels, cylinderVolume)    
         {
-            this.Length = length;
+            Length = length;
         }
 
         public override string ToString()

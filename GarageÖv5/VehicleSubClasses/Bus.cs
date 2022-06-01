@@ -16,10 +16,6 @@ namespace GarageÖv5.VehicleSubClasses
 
         public Bus(string color, string licenseNumber, int amountWheels, int cylinderVolume, int numOfSeats) : base(color, licenseNumber, amountWheels, cylinderVolume)
         {
-            Color = color;
-            LicenseNumber = licenseNumber;
-            AmountWheels = amountWheels;
-            CyliderVolume = cylinderVolume;
             NumOfSeats = numOfSeats;
 
         }
