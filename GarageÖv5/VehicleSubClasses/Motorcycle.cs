@@ -8,5 +8,19 @@ namespace GarageÖv5.VehicleSubClasses
 {
     internal class Motorcycle : Vehicle
     {
+        public override string Name { get; } = "Motorcycle";
+        public double Length
+        {
+            get; set;
+        }
+        public Motorcycle(string color, string licenseNumber, int amountWheels, int cylinderVolume, double length) : base(color, licenseNumber, amountWheels, cylinderVolume)    
+        {
+            this.Length = length;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + $" Length of MotorCycle: {Length} ";
+        }
     }
 }

@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace GarageÖv5
 {
-    internal class Garage<T>where T : class
+    class Garage<T> : IGarage<T>
     {
+        public Garage()
+        {
+
+        }
+        public IEnumerator<T> GetEnumerator()
+        {
+            //ToDo
+            yield break;
+        }
 
     }
 }
