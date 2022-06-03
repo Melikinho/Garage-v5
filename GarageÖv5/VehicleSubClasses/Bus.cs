@@ -8,20 +8,20 @@ namespace GarageÖv5.VehicleSubClasses
 {
     internal class Bus : Vehicle
     {
-        public int NumOfSeats
+        public uint NumOfSeats
         {
             get; set;
         }
         public override string Name { get; } = "Bus";
 
-        public Bus(string color, string licenseNumber, int amountWheels, int cylinderVolume, int numOfSeats) : base(color, licenseNumber, amountWheels, cylinderVolume)
+        public Bus(string color, string licenseNumber, uint amountWheels, uint cylinderVolume, uint numOfSeats) : base(color, licenseNumber, amountWheels, cylinderVolume)
         {
             NumOfSeats = numOfSeats;
 
         }
         public override string ToString()
         {
-            return base.ToString() + $"Number of Seats: {NumOfSeats}";
+            return base.ToString() + $"Number of Seats: {NumOfSeats} seats ";
         }
     }
 }

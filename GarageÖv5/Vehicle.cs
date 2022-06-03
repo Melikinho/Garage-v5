@@ -13,11 +13,11 @@ namespace GarageÖv5
         
         public string LicenseNumber { get; set; }
         
-        public int AmountWheels { get; set; }   
+        public uint AmountWheels { get; set; }   
 
-        public int CyliderVolume { get; set;  }
+        public uint CyliderVolume { get; set;  }
 
-        public Vehicle(string color, string licenseNumber, int amountWheels, int cyliderVolume)
+        public Vehicle(string color, string licenseNumber, uint amountWheels, uint cyliderVolume)
         {
             Color = color;
             LicenseNumber = licenseNumber;
@@ -27,7 +27,7 @@ namespace GarageÖv5
 
         public override string ToString()
         {
-            return base.ToString() + $"Vehicle type: {Name} Color: {Color} Registration Number: {LicenseNumber} Amount of Wheels: {AmountWheels} Amount of Cylinder Volume: {CyliderVolume}";
+            return base.ToString() + $"Vehicle type: {Name}\n Color: {Color}\n Registration Number: {LicenseNumber}\n Amount of Wheels: {AmountWheels}\n Amount of Cylinder Volume: V{CyliderVolume}\n";
         }
     }
 }

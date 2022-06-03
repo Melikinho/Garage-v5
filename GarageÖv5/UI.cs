@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace GarageÖv5
 {
-    internal class UI
+    public interface IUI
     {
+         void ShowMenu();
+        string GetString();
+        string GetInt();
+        void PrintMessage(string message);
+
     }
 }

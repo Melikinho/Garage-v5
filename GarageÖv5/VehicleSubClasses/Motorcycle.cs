@@ -13,14 +13,14 @@ namespace GarageÖv5.VehicleSubClasses
         {
             get; set;
         }
-        public Motorcycle(string color, string licenseNumber, int amountWheels, int cylinderVolume, double length) : base(color, licenseNumber, amountWheels, cylinderVolume)    
+        public Motorcycle(string color, string licenseNumber, uint amountWheels, uint cylinderVolume, double length) : base(color, licenseNumber, amountWheels, cylinderVolume)    
         {
             Length = length;
         }
 
         public override string ToString()
         {
-            return base.ToString() + $" Length of MotorCycle: {Length} ";
+            return base.ToString() + $" Length of MotorCycle: {Length} meters ";
         }
     }
 }
