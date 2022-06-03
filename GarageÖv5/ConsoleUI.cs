@@ -8,6 +8,25 @@ namespace GarageÖv5
 {
     public class ConsoleUI // : IUI
     {
+        public static string ReadString() => Console.ReadLine() ?? String.Empty;
+
+        public static uint ReadUInt()
+        {
+            var input = ReadString();
+            if (uint.TryParse(input, out uint result))
+                return result;
+            else
+                throw new ArgumentException("Wrong input");
+        }
+
+        public static uint AskForUInt()
+        {
+            var input = ReadString();
+            if (uint.TryParse(input, out uint result))
+                return result;
+            else
+                throw new ArgumentException("Wrong number. Needs to be 'Uint'. ");;
+        }
         public string GetInt()
         {
             throw new NotImplementedException();
@@ -17,7 +36,6 @@ namespace GarageÖv5
         {
             throw new NotImplementedException();
         }
-
         public void PrintMessage(string message)
         {
             throw new NotImplementedException();
@@ -29,11 +47,13 @@ namespace GarageÖv5
 
         public static void ColorRed() => Console.ForegroundColor = ConsoleColor.Red;
 
+
         public void ShowMenu()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("*******WELCOME TO THE GARAGE*******");
             Console.WriteLine("Type 'exit' to quit the program. ");
+            Console.WriteLine("Type 'create' to generate a new garage. ");
             Console.WriteLine("Type 'list' to list all parked Vehicles ");
             Console.WriteLine("Type 'listtypes' to list different vehicles parked in the garage ");
             Console.WriteLine("Type 'park' in the console to park your Vehicle ");
@@ -42,8 +62,7 @@ namespace GarageÖv5
             Console.ResetColor();
 
         }
-
     }
 
-   
+
 }

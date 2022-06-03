@@ -8,7 +8,7 @@ namespace GarageÖv5
 {
     internal class Manager
     {
-        private ConsoleUI ui;
+        private readonly ConsoleUI ui;
         private Handler handler;
 
         public Manager()
@@ -18,10 +18,13 @@ namespace GarageÖv5
 
         internal void Start()
         {
+
             //Show start meny to set garage capacity
             //Need to set Capacity
-            var capacity = 10; //Ska komma från användaren!!!!! Tex ui.AskForInt eller från en Util se Employee projektet
-            handler = new Handler(capacity);
+            uint capacity;
+            ConsoleUI.AskForUInt();
+            //Ska komma från användaren!!!!! Tex ui.AskForInt eller från en Util se Employee projektet
+            handler = new Handler();
 
             //Nu är garaget skapat med en korrelt storlek
             ShowMainMeny();
@@ -31,19 +34,20 @@ namespace GarageÖv5
 
         private void ShowMainMeny()
         {
-            bool run = true;
+            bool running = true;
 
-            while (run)
+            while (running)
             {
-                ui.ShowMenu();
+                string option;
+                option = Console.ReadLine();
 
-                string option = Console.ReadLine();
-
-                // switch
                 switch (option)
                 {
+                    case "creategarage":
+                        handler.CreateGarage();
+                        break;
+
                     case "exit":
-                        ConsoleUI.Print("Exiting program");
                         ConsoleUI.Sleep();
                         Handler.Exit();
                         break;
@@ -51,12 +55,17 @@ namespace GarageÖv5
                         handler.SeedVehicles();
                         break;
                     case "listtypes":
+                        handler.ListTypesInVehicles();
                         break;
                     case "park":
+                        handler.ParkVehicles();
                         break;
                     case "unpark":
+                        handler.UnParkVehicle();
                         break;
                     case "search":
+                        handler.SearchVehicles();
+                        break;
                     default:
                         ConsoleUI.ColorRed();
                         ConsoleUI.Print("Wrong input. Pleaase re-consider your input again. ");
