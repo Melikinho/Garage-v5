@@ -18,13 +18,16 @@ namespace GarageÖv5
 
         internal void Start()
         {
+            ConsoleUI ui = new();
 
             //Show start meny to set garage capacity
             //Need to set Capacity
             uint capacity;
-            ConsoleUI.AskForUInt();
+            ui.AskForUInt();
             //Ska komma från användaren!!!!! Tex ui.AskForInt eller från en Util se Employee projektet
-            handler = new Handler(10);
+
+            //Handler handler = new();
+            handler = new Handler(10, ui);
 
             //Nu är garaget skapat med en korrelt storlek
             ShowMainMeny();
@@ -48,8 +51,8 @@ namespace GarageÖv5
                         break;
 
                     case "exit":
-                        ConsoleUI.Sleep();
-                        Handler.Exit();
+                        ui.Sleep();
+                        handler.Exit();
                         break;
                     case "list":
                         handler.SeedVehicles();
@@ -58,18 +61,20 @@ namespace GarageÖv5
                         handler.ListTypesInVehicles();
                         break;
                     case "park":
-                        //handler.ParkVehicles();
                         handler.AddVehicle();
                         break;
                     case "unpark":
-                        //handler.UnParkVehicle();
+                        handler.DeleteVehicle();
                         break;
                     case "search":
                         //handler.SearchVehicles();
                         break;
+                    case "print":
+                        handler.ListAllVehicles();
+                        break;
                     default:
-                        ConsoleUI.ColorRed();
-                        ConsoleUI.Print("Wrong input. Pleaase re-consider your input again. ");
+                        ui.ColorRed();
+                        ui.Print("Wrong input. Pleaase re-consider your input again. ");
                         break;
 
                 }

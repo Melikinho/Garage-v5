@@ -8,14 +8,18 @@ using System.Threading.Tasks;
 
 namespace GarageÖv5
 {
-    public class Handler : ConsoleUI
+    public class Handler 
     {
         private Garage<Vehicle> garage;
         private uint capacity;
+        private readonly ConsoleUI ui;
 
-        public Handler(uint capacity)
+
+
+        public Handler(uint capacity, ConsoleUI ui)
         {
             garage = new Garage<Vehicle>(capacity);
+            this.ui = ui;
         }
 
         private IEnumerable<Vehicle> GetDummyVehicles()
@@ -73,7 +77,7 @@ namespace GarageÖv5
 
                         Console.WriteLine("Please enter number of seats for your Bus: ");
                         var BusNumOfSeats = Console.ReadLine();
-                        UInt32.TryParse(BusNumOfSeats, out UInt32 BusNumOfSeatsResult); 
+                        UInt32.TryParse(BusNumOfSeats, out UInt32 BusNumOfSeatsResult);
 
                         break;
                     case "Boat":
@@ -122,22 +126,22 @@ namespace GarageÖv5
 
                     case "Airplane":
                         Console.WriteLine("Enter your color: ");
-                        var color = ReadString();
+                        var color = ui.ReadString();
 
                         Console.WriteLine("Enter your registration number: ");
-                        var registerNumber = ReadString();
+                        var registerNumber = ui.ReadString();
 
                         Console.WriteLine("Enter amount of wheels");
-                        var amountWheels = ReadString();
+                        var amountWheels = ui.ReadString();
                         UInt32.TryParse(amountWheels, out UInt32 amoutWheelsResult);
 
 
                         Console.WriteLine("Enter total cylinder volume: ");
-                        var cylinderVolume = ReadString();
+                        var cylinderVolume = ui.ReadString();
                         UInt32.TryParse(cylinderVolume, out UInt32 cylinderVolumeResult);
 
                         Console.WriteLine("Enter total Engines: ");
-                        var TotEngines = ReadString();
+                        var TotEngines = ui.ReadString();
                         UInt32.TryParse(TotEngines, out uint TotEngines2);
 
                         vehicle = new Airplane(color, registerNumber, amoutWheelsResult, cylinderVolumeResult, TotEngines2);
@@ -146,17 +150,17 @@ namespace GarageÖv5
                     case "Car":
 
                         Console.WriteLine("Please Enter your color for the car: ");
-                        var CarColor = ReadString();
+                        var CarColor = ui.ReadString();
 
                         Console.WriteLine("Please enter your Registration number for your car: ");
-                        var CarRegistrationNumber = ReadString();
+                        var CarRegistrationNumber = ui.ReadString();
 
                         Console.WriteLine("Please Enter your amount of wheels. ");
-                        var CarAmountOfWheels = ReadString();
+                        var CarAmountOfWheels = ui.ReadString();
                         UInt32.TryParse(CarAmountOfWheels, out uint CarAmountOfWheelsResult);
 
                         Console.WriteLine("Please enter your cylinder volume. ");
-                        var CarCylinderVolume = ReadString();
+                        var CarCylinderVolume = ui.ReadString();
                         UInt32.TryParse(CarCylinderVolume, out uint CarCylinderVolumeResult);
 
                         Console.WriteLine($"Please Select fuelType: \n 1. Gasoline \n 2. Diesel \n 3. Electric ");
@@ -164,7 +168,8 @@ namespace GarageÖv5
                         var input = Console.ReadKey();
                         FuelType fuelType = FuelType.Gasoline;
 
-                        switch (input.Key) {
+                        switch (input.Key)
+                        {
                             case ConsoleKey.D1:
                             case ConsoleKey.NumPad1:
                                 fuelType = FuelType.Gasoline;
@@ -185,26 +190,56 @@ namespace GarageÖv5
                         vehicle = new Car(CarColor, CarRegistrationNumber, CarAmountOfWheelsResult, CarCylinderVolumeResult, fuelType);
                         break;
                 }
-
-
+                if (!garage.AddVehicle(vehicle))
+                    Console.WriteLine("Garage is full. Cannot park vehicle. ");
             }
-
             catch
             {
                 throw new ArgumentException("Wrong input. Please Try again: ");
             }
 
+        }
 
+        private Vehicle? SearchVehicleRegNr()
+        {
+            Console.WriteLine("Enter your Registration Number to search: ");
+            var registrationNumber = Console.ReadLine();
+            var vehicle = garage?.FirstOrDefault(v => v.LicenseNumber.ToUpper().Equals(registrationNumber.ToUpper()));
 
+            return vehicle;
+        }
+
+        public void DeleteVehicle()
+        {
+            try
+            {
+                if (garage is null)
+                    throw new ArgumentNullException("Garage not created. ");
+
+                Console.WriteLine("UnPark your vehicle with Registraton number: ");
+                var vehicle = SearchVehicleRegNr();
+
+                if (vehicle != null)
+                {
+                    garage.removeVehicle(vehicle);
+                    ui.Print($"You have successfully unparked your vehicle: {vehicle.LicenseNumber} ");
+                }    
+                else
+                {
+                    ui.Print("Couldn't park the Vehicle. The following Registration number doesn't exist. ");
+
+                }
+            }
         
-
-
-
+            catch(InvalidOperationException)
+            {
+                Console.WriteLine("invalid. Please, try again. ");
+            }
         }
 
         public void ListAllVehicles()
         {
-            ConsoleUI.Print("Print all Vehicles in garage ");
+            ui.Print("Print all Vehicles in garage ");
 
             try
             {
@@ -212,62 +247,62 @@ namespace GarageÖv5
                     throw new InvalidOperationException("Failed. try again!");
 
                 foreach (Vehicle v in garage)
-                    Console.WriteLine(v.ToString());
+                    ui.Print(v.ToString());
             }
 
 
             catch (InvalidOperationException)
             {
-                Console.WriteLine(" ");
+                ui.Print(" Invalid ");
             }
         }
 
         internal void CreateGarage()
         {
-            Console.WriteLine("Please, enter to create your new garage: ");
-            var capacity = ConsoleUI.ReadUInt();
+            ui.Print("Please, enter to create your new garage: ");
+            var capacity = ui.ReadUInt();
             garage = new Garage<Vehicle>(capacity);
-            ConsoleUI.Print("Garage has been created! ");
+            ui.Print("Garage has been created! ");
            
         }
 
-        public void SearchVehicles(string color)
-        {
-            ConsoleUI.Print("Search Vehicles: ");
-            var result = garage.Where(item => item.Color.ToLower().StartsWith(color.ToLower()));
+        //public void SearchVehicles(string color)
+        //{
+        //    ui.Print("Search Vehicles: ");
+        //    var result = garage.Where(item => item.Color.ToLower().StartsWith(color.ToLower()));
 
-            foreach (var vehicle in result)
-            {
-                Console.WriteLine(vehicle.ToString());
-            }
+        //    foreach (var vehicles in result)
+        //    {
+        //        Console.WriteLine(vehicles.ToString());
+        //    }
 
-        }
+        //}
 
         public void ParkVehicles(Vehicle vehicle)
         {
-            ConsoleUI.Print("Please, enter to park your vehicle: ");
+            ui.Print("Please, enter to park your vehicle: ");
             Console.ReadLine();
 
             if (garage.Park(vehicle))
             {
-                Console.WriteLine($"You have been successfully parked your vehicle;  {vehicle.LicenseNumber}");
+                ui.Print($"You have been successfully parked your vehicle;  {vehicle.LicenseNumber}");
             }
             else
                 {
-                    Console.WriteLine($" Garage is full. {vehicle.LicenseNumber}");
+                    ui.Print($" Garage is full. {vehicle.LicenseNumber}");
                 }
 
         }
 
         public void ListTypesInVehicles()
         {
-            ConsoleUI.Print("Please, enter the desired type to print all vehicles: ");
+            ui.Print("Please, enter the desired type to print all vehicles: ");
 
         }
 
         public void UnParkVehicle(string registerNumber)
         {
-            ConsoleUI.Print("Please, enter your desired Vehcile to unpark it: ");
+            ui.Print("Please, enter your desired Vehcile to unpark it: ");
                 
             if (garage.UnPark(registerNumber))
                 {
@@ -279,10 +314,12 @@ namespace GarageÖv5
                 }
         }
 
-        public static void Exit()
+
+
+        public void Exit()
         {
-            ConsoleUI.Print("Exiting program");
-            ConsoleUI.Print("3...2.....1....");
+            ui.Print("Exiting program");
+            ui.Print("3...2.....1....");
             Environment.Exit(0);
         }
     }

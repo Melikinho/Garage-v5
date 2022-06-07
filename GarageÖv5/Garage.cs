@@ -15,9 +15,6 @@ namespace GarageÖv5
             //Validate capacity!!!!
             vehicles = new T[capacity];
         }
-        //Add metod
-
-        //Remove metod
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -33,9 +30,22 @@ namespace GarageÖv5
         {
             bool full = vehicles.All(v => v != null);
             if (full) return false;
-            vehicles[vehicles.ToList().IndexOf(vehicles.First(v => v is null))] = newVehicle;
+
+            var firstNullElementIndex = vehicles.ToList().IndexOf(vehicles.First(v => v is null));
+
+            vehicles[firstNullElementIndex] = newVehicle;
             return true;
 
+        }
+
+        internal void removeVehicle(T vehicle)
+        {
+            var vehicleIndex = vehicles.ToList().IndexOf(vehicle);
+
+            if (vehicleIndex != -1)
+            {
+                vehicles[vehicleIndex] = null;
+            }
         }
 
         public bool UnPark(string registerNumber)
