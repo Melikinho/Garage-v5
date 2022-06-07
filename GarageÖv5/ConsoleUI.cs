@@ -10,14 +10,14 @@ namespace GarageÖv5
     {
         public static string ReadString() => Console.ReadLine() ?? String.Empty;
 
-        public static uint ReadUInt()
-        {
-            var input = ReadString();
-            if (uint.TryParse(input, out uint result))
-                return result;
-            else
-                throw new ArgumentException("Wrong input");
-        }
+        //public static uint ReadUInt()
+        //{
+        //    var input = ReadString();
+        //    if (uint.TryParse(input, out uint result))
+        //        return result;
+        //    else
+        //        throw new ArgumentException("Wrong input");
+        //}
 
         public static uint AskForUInt()
         {
@@ -26,6 +26,16 @@ namespace GarageÖv5
                 return result;
             else
                 throw new ArgumentException("Wrong number. Needs to be 'Uint'. ");;
+        }
+
+        public static uint ReadUInt()
+        {
+            var input = ReadString();
+            if (uint.TryParse(input, out uint result))
+                return result;
+            else
+                throw new ArgumentException("Wrong input. Please try again. "); 
+
         }
         public string GetInt()
         {

@@ -24,7 +24,7 @@ namespace GarageÖv5
             uint capacity;
             ConsoleUI.AskForUInt();
             //Ska komma från användaren!!!!! Tex ui.AskForInt eller från en Util se Employee projektet
-            handler = new Handler();
+            handler = new Handler(10);
 
             //Nu är garaget skapat med en korrelt storlek
             ShowMainMeny();
@@ -58,13 +58,14 @@ namespace GarageÖv5
                         handler.ListTypesInVehicles();
                         break;
                     case "park":
-                        handler.ParkVehicles();
+                        //handler.ParkVehicles();
+                        handler.AddVehicle();
                         break;
                     case "unpark":
-                        handler.UnParkVehicle();
+                        //handler.UnParkVehicle();
                         break;
                     case "search":
-                        handler.SearchVehicles();
+                        //handler.SearchVehicles();
                         break;
                     default:
                         ConsoleUI.ColorRed();

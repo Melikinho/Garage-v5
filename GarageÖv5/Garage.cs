@@ -29,22 +29,40 @@ namespace GarageÖv5
             }
             yield break;
         }
-        internal void Add(T vehicle)
+        internal bool AddVehicle(T newVehicle)
         {
-            var myList = new List<T>();
-            myList.Add(vehicle);
-        }
-
-        internal void Remove(T vehicle)
-        {
-            var myList = new List<T>();
-            myList.Remove(vehicle);
+            bool full = vehicles.All(v => v != null);
+            if (full) return false;
+            vehicles[vehicles.ToList().IndexOf(vehicles.First(v => v is null))] = newVehicle;
+            return true;
 
         }
 
-        internal void Park(T vehicle)
+        public bool UnPark(string registerNumber)
         {
+            for (int i = 0; i < vehicles.Length; i++)
+            {
+                if (vehicles[i].LicenseNumber == registerNumber)
+                {
+                    vehicles[i] = default(T);
+                    return true;
+                }
+            }
+            return false;
+        }
 
+        public bool Park(T vehicle)
+        {
+            for (int i = 0; i < vehicles.Length; i++)
+            {
+                if (vehicles[i] is null)
+                {
+                    vehicles[i] = vehicle;
+                    return true;
+
+                }
+            }
+            return false;
 
         }
 
