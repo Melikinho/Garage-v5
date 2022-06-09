@@ -23,58 +23,58 @@ namespace GarageÖv5
             //Show start meny to set garage capacity
             //Need to set Capacity
             uint capacity;
-            ui.AskForUInt();
+            ui.Print("How long is your garage?");
+            var size = ui.AskForUInt();
             //Ska komma från användaren!!!!! Tex ui.AskForInt eller från en Util se Employee projektet
 
             //Handler handler = new();
-            handler = new Handler(10, ui);
+            handler = new Handler(size, ui);
 
             //Nu är garaget skapat med en korrelt storlek
+
             ShowMainMeny();
             
         }
-
-
         private void ShowMainMeny()
         {
             bool running = true;
 
-            while (running)
+            while (running!)
             {
+                ui.ShowMenu();
                 string option;
-                option = Console.ReadLine();
+                option = ui.ReadString();
+                UInt32.TryParse(option, out uint result);
 
                 switch (option)
                 {
-                    case "creategarage":
+                    case "0":
+                        handler.Exit();
+                        ui.Sleep();
+                        break;
+                    case "1":
                         handler.CreateGarage();
                         break;
-
-                    case "exit":
-                        ui.Sleep();
-                        handler.Exit();
-                        break;
-                    case "list":
+                    case "2":
                         handler.SeedVehicles();
+                        handler.ListAllVehicles();
                         break;
-                    case "listtypes":
+                    case "3":
                         handler.ListTypesInVehicles();
                         break;
-                    case "park":
+                    case "4":
                         handler.AddVehicle();
                         break;
-                    case "unpark":
+                    case "5":
                         handler.DeleteVehicle();
                         break;
-                    case "search":
-                        //handler.SearchVehicles();
-                        break;
-                    case "print":
-                        handler.ListAllVehicles();
+                    case "6":
+                        handler.ListTypesInVehicles();
                         break;
                     default:
                         ui.ColorRed();
                         ui.Print("Wrong input. Pleaase re-consider your input again. ");
+                        Console.ResetColor();
                         break;
 
                 }
