@@ -58,87 +58,40 @@ namespace GarageÖv5
                 var vehicleType = Console.ReadLine();
 
                 Vehicle? vehicle = null;
-
+                
 
                 switch (vehicleType)
                 {
                     case "Bus":
                         var (BusColour, busRegistrationNumber, nrwheels, busCylinderVolume) = GetCommons("Bus");
-                        vehicle = new Bus(BusColour, busRegistrationNumber, nrwheels, busCylinderVolume, BusSeats());
+                        vehicle = new Bus(BusColour, busRegistrationNumber, nrwheels, busCylinderVolume, amountNumber());
 
                         break;
                     case "Boat":
                         var (BoatColour, BoatRegistrationnumber, BoatNrWheels, BoatCylinderVolume) = GetCommons("Boat");
-                        vehicle = new Boat(BoatColour, BoatRegistrationnumber, BoatNrWheels, BoatCylinderVolume, BoatLength());
-                        double BoatLengthResult = BoatLength();
-                        vehicle = new Boat(BoatColour, BoatRegistrationnumber, BoatNrWheels, BoatCylinderVolume, BoatLengthResult);
+                        vehicle = new Boat(BoatColour, BoatRegistrationnumber, BoatNrWheels, BoatCylinderVolume, VehicleLength());
                         break;
 
                     case "Motorcycle":
-                        Console.WriteLine("Enter your color for your Motorcycle: ");
-                        var MotorCycleColor = Console.ReadLine();
-
-                        Console.WriteLine("Enter your Registration number for your motorcycle: ");
-                        var MotorCycleRegistrationNumber = Console.ReadLine();
-
-                        Console.WriteLine("Enter amount of wheels for your motorcycle: ");
-                        var MotorCycleAmountOufWheels = Console.ReadLine();
-                        UInt32.TryParse(MotorCycleAmountOufWheels, out UInt32 MotorCycleAmountOfWheelsResult);
-
-                        Console.WriteLine("Enter cylinder volume for your motorcycle: ");
-                        var MotorCycleCylinderVolume = Console.ReadLine();
-                        UInt32.TryParse(MotorCycleCylinderVolume, out UInt32 MotorCycleCylinderVolumeResult);
-
-                        Console.WriteLine("Enter the length of Motorcycle: ");
-                        var MotorCycleLength = Console.ReadLine();
-                        double.TryParse(MotorCycleLength, out double MotorCycleLengthResult);
-
-                        vehicle = new Motorcycle(MotorCycleColor, MotorCycleRegistrationNumber, MotorCycleAmountOfWheelsResult, MotorCycleCylinderVolumeResult, MotorCycleLengthResult);
+                        var (MotorCycleColour, MotorCycleRegistrationNumber, MotorCycleWheels, MotorCycleCylinderVolume) = GetCommons("Motorcycle");
+                        vehicle = new Motorcycle(MotorCycleColour, MotorCycleRegistrationNumber, MotorCycleWheels, MotorCycleCylinderVolume, VehicleLength());
                         break;
+
 
                     case "Airplane":
 
-                        Console.WriteLine("Enter your color: ");
-                        var color = ui.ReadString();
-
-                        Console.WriteLine("Enter your registration number: ");
-                        var registerNumber = ui.ReadString();
-
-
-                        Console.WriteLine("Enter amount of wheels");
-                        var amountWheels = ui.ReadString();
-                        UInt32.TryParse(amountWheels, out UInt32 amountWheelsResult);
-
-                        var cylinderVolume = ui.ReadString();
-                        UInt32.TryParse(cylinderVolume, out UInt32 cylinderVolumeResult);
-
-                        var TotEngines = ui.ReadString();
-                        UInt32.TryParse(TotEngines, out uint TotEnginesResult);
-
-                        vehicle = new Airplane(color, registerNumber, amountWheelsResult, cylinderVolumeResult, TotEnginesResult);
+                        var (AirplaneColour, AirplaneRegistrationNumber, AirplaneWheels, AirplaneCylinderVolume) = GetCommons("Airplane");
+                        vehicle = new Airplane(AirplaneColour, AirplaneRegistrationNumber, AirplaneWheels, AirplaneCylinderVolume, amountUint());
                         break;
 
 
                     case "Car":
 
-                        Console.WriteLine("Please Enter your color for the car: ");
-                        var CarColor = ui.ReadString();
+                        var (CarColour, CarRegistrationNumber, CarAmountOfWheels, CarCylinderVolume) = GetCommons("Car");
 
-                        Console.WriteLine("Please enter your Registration number for your car: ");
-                        var CarRegistrationNumber = ui.ReadString();
-
-                        Console.WriteLine("Please Enter your amount of wheels. ");
-                        var CarAmountOfWheels = ui.ReadString();
-                        UInt32.TryParse(CarAmountOfWheels, out uint CarAmountOfWheelsResult);
-
-                        Console.WriteLine("Please enter your cylinder volume. ");
-                        var CarCylinderVolume = ui.ReadString();
-                        UInt32.TryParse(CarCylinderVolume, out uint CarCylinderVolumeResult);
-
-                        Console.WriteLine($"Please Select fuelType: \n 1. Gasoline \n 2. Diesel \n 3. Electric ");
-
-                        var input = Console.ReadKey();
-                        FuelType fuelType = FuelType.Gasoline;
+                        ConsoleKeyInfo input;
+                        FuelType fuelType;
+                        VehicleFuelType(out input, out fuelType);
 
                         switch (input.Key)
                         {
@@ -155,11 +108,11 @@ namespace GarageÖv5
                                 fuelType = FuelType.electric;
                                 break;
                             default:
-                                throw new ArgumentException("Wrong type. Please, re-consider your input. ");
+                                throw new ArgumentException("Wrong type. Please, re-consider your input.");
                                 break;
 
                         }
-                        vehicle = new Car(CarColor, CarRegistrationNumber, CarAmountOfWheelsResult, CarCylinderVolumeResult, fuelType);
+                        vehicle = new Car(CarColour, CarRegistrationNumber, CarAmountOfWheels, CarCylinderVolume, fuelType);
                         break;
                 }
                 if (!garage.AddVehicle(vehicle))
@@ -172,48 +125,60 @@ namespace GarageÖv5
 
         }
 
-        private static uint BusSeats()
+        private static void VehicleFuelType(out ConsoleKeyInfo input, out FuelType fuelType)
         {
-            Console.WriteLine("Enter your total seats for your Bus: ");
-            var BusSeats = Console.ReadLine();
-            UInt32.TryParse(BusSeats, out UInt32 BusSeatsResult);
-            return BusSeatsResult;
+            Console.WriteLine($"Please Select fuelType: \n 1. Gasoline \n 2. Diesel \n 3. Electric ");
+            input = Console.ReadKey();
+            fuelType = FuelType.Gasoline;
         }
-        private static double BoatLength()
+
+        public uint amountUint()
+        {
+            ui.Print("Enter total amount of engines: ");
+            var totalAmount = ui.ReadString();
+            UInt32.TryParse(totalAmount, out uint totalAmountResult);
+            return totalAmountResult;
+        }
+
+        public uint amountNumber()
+        {
+            ui.Print($"Enter your total seats for your: ");
+            var amountNumber = Console.ReadLine();
+            UInt32.TryParse(amountNumber, out UInt32 amountNumberResult);
+            return amountNumberResult;
+        }
+        private static double VehicleLength()
         {
             Console.WriteLine("Enter your Length for your Boat: ");
-            var BoatLength = Console.ReadLine();
-            double.TryParse(BoatLength, out double BoatLengthResult);
-            return BoatLengthResult;
+            var VehicleLength = Console.ReadLine();
+            double.TryParse(VehicleLength, out double VehicleLengthResult);
+            return VehicleLengthResult;
         }
 
-        private (string busColor, string busRegistrationNumber, uint nrwheels, uint busCylinderVolume) GetCommons(string vehicleType)
+        private (string vehicleColor, string vehicleRegistrationNumber, uint nrwheels, uint CylinderVolume) GetCommons(string vehicleType)
         {
             ui.Print($"Please Enter your colour for your {vehicleType}: ");
-            string BusColour = ReadInput();
+            string vehicleColour = ReadInput();
 
             ui.Print($"Please enter your registration number for your {vehicleType}");
-            string busRegistrationNumber = ReadInput();
+            string vehicleRegistrationNumber = ReadInput();
 
             ui.Print($"Please, enter amount of wheels your {vehicleType} have ");
-            string nrwheels = ReadInput();
-            uint nrWheelsResult = ParseStringToUInt(nrwheels);
+            string amount = ReadInput();
+            uint amountResult = ParseStringToUInt(amount);
 
             ui.Print($"Please, enter amount of Cylinder volume the {vehicleType} has ");
-            string busCylinderVolume = ReadInput();
-            uint busCylinderVolumeResult = ParseStringToUInt(busCylinderVolume);
+            string CylinderVolume = ReadInput();
+            uint CylinderVolumeResult = ParseStringToUInt(CylinderVolume);
 
-            //ui.Print($"Please, enter total amount of Seats the {vehicleType} has ");
-            //string BusSeats = ReadInput();
-            //uint BusSeatsResult = ParseStringToUInt(BusSeats);
-            return (BusColour, busRegistrationNumber, nrWheelsResult, busCylinderVolumeResult);
+            return (vehicleColour, vehicleRegistrationNumber, amountResult, CylinderVolumeResult);
 
         }
 
-        private uint ParseStringToUInt(string nrwheels)
+        private uint ParseStringToUInt(string amount)
         {
-            UInt32.TryParse(nrwheels, out uint nrWheelsResult);
-            return nrWheelsResult;
+            UInt32.TryParse(amount, out uint amountResult);
+            return amountResult;
         }
 
         private static string ReadInput()
@@ -278,27 +243,14 @@ namespace GarageÖv5
             }
         }
 
-        internal void CreateGarage()
+        public void CreateGarage()
         {
             ui.Print("Please, enter to create your new garage: ");
             var capacity = ui.ReadUInt();
             garage = new Garage<Vehicle>(capacity);
             ui.Print("Garage has been created! ");
-           
+            ui.Print("The old one has been deleted. ");
         }
-
-        //public void SearchVehicles(string color)
-        //{
-        //    ui.Print("Search Vehicles: ");
-        //    var result = garage.Where(item => item.Color.ToLower().StartsWith(color.ToLower()));
-
-        //    foreach (var vehicles in result)
-        //    {
-        //        Console.WriteLine(vehicles.ToString());
-        //    }
-
-        //}
-
 
         //if..
 
@@ -323,7 +275,7 @@ namespace GarageÖv5
                 }
 
         }
-        public List<Vehicle> SearchVehicles(uint amountWheels, string colour = "", string vehicleType = "") //Amount ofwheel string?
+        public List<Vehicle> SearchVehicles(uint amountWheels, string colour = "", string vehicleType = "")
         {
             IEnumerable<Vehicle> query = garage;
             ArgumentNullException.ThrowIfNull(colour);
@@ -337,7 +289,7 @@ namespace GarageÖv5
                     Console.WriteLine(vehicle.Color);
                 }
             }
-            else if (amountWheels > 1)//Ska vi söka eller inte?
+            else if (amountWheels > 1)
             {
                 query = query.Where(v => v.AmountWheels == amountWheels);
 
@@ -354,123 +306,80 @@ namespace GarageÖv5
                     Console.WriteLine(vehicle);
                 }
             }
-            //if (!string.IsNullOrWhiteSpace(vehicleType))
-            //{
-
-            //    query = query.Where(v => v.Name == vehicleType.ToLower());
-            //    foreach (var Name in query)
-            //    {
-            //        Console.WriteLine(Name);
-            //    }
-
-            //}
             return query.ToList();
         }
 
         public void ListTypesInVehicles()
         {
-            ui.Print("Please, enter the desired type to print it: ");
+
             try
             {
-                bool running = true;
+                ui.Print("Please, enter the desired type to print it: ");
+
                 if (garage is null)
-                    throw new InvalidOperationException("Garage has not been created. Please re-consider your input. ");
+                        throw new InvalidOperationException("Garage has not been created. Please re-consider your input. ");
                 string colour;
                 string amountWheels;
                 string vehicleType;
-                ConsoleKey inputKey;
-                    
-                    ui.Print("1./ Colour");
-                ui.AskForString(colour);
+                string pressed;
 
-                    ui.Print("2./ Amount of Wheels");
-                amountWheels = Console.ReadLine();
-                    ui.Print("3./ Vehicle type");
-                vehicleType = Console.ReadLine();
-                ui.Print("/ press Enter to go back");
-                
-                string line = Console.ReadLine();
-                if(line == "enter")
+
+                ui.Print("1./ Black Cars");
+                ui.Print("2./ All Vehicles with 4 or more Wheels");
+                ui.Print("3./ All Airplanes: ");
+                pressed = Console.ReadLine();
+                uint.TryParse(pressed, out uint pressedResult);
+
+                if (pressedResult == 1)
                 {
-                    return;
+                    foreach (var vehicle in garage)
+                    {
+                        if (vehicle.GetType().Name == "Car")
+                        {
+                            Console.WriteLine(vehicle);
+                        }
+                        else
+                            Console.WriteLine("Wrong type, Try again");
+
+                    }
+                }
+
+                else if (pressedResult == 2)
+                {
+                    foreach (var vehicle in garage)
+                    {
+                        if (vehicle.AmountWheels > 4)
+                        {
+                            Console.WriteLine(vehicle.AmountWheels);
+                        }
+                    }
+                }
+
+                else if (pressedResult == 3)
+                {
+                    foreach (var vehicle in garage)
+                    {
+                        if (vehicle.Name == "Airplane")
+                        {
+                            ui.Print(vehicle.Name);
+                        }
+
+                    }
                 }
                 else
-                {
-                    ui.Print("Wrong input. Press Enter to return to main menu");
-                }
-                
-
-
-
-
-                //Om man inte vill söka så skriver man något tecken tex - eller x eller nåt annat
-
-                var result = SearchVehicles(colour, amountWheels, vehicleType);
-
-                foreach(var vehicle in result)
-                {
-                    Console.WriteLine(vehicle.ToString());
-                }
-                
-                inputKey = new ConsoleKey();
-
-                //    switch (inputKey)
-
-                //    {
-                //        case ConsoleKey.D1:
-                //            {
-                //                ui.Print("Enter colour: ");
-                //                colour = Console.ReadLine();
-                //                break;
-                //            }
-                //        case ConsoleKey.D2:
-                //            {
-                //                ui.Print("Enter amount of wheels: ");
-                //                amountWheels = Console.ReadLine();
-                //                UInt32.TryParse(amountWheels, out uint amountWheelsResult);
-                //                break;
-
-                //            }
-                //        case ConsoleKey.D3:
-                //            {
-                //                ui.Print("Enter Vehicle Type: ");
-                //                vehicleType = Console.ReadLine();
-                //                break;
-                //            }
-                //        case ConsoleKey.D4:
-                //            {
-                //            var query = garage.Where(v => v.Color == colour);
-
-                //            query = query.Where(v => v.AmountWheels > 1);
-
-                //            query = query.Where(v => v.CyliderVolume > 1);
-
-                //            foreach(var item in query)
-                //            {
-
-                //            }
-
-                //            break;
-                //        }
-                //        default:
-                //            {
-                //                ui.Print("Wrong input. Please re-consinder your input and try again. ");
-                //                return;
-                //            }
-                //        while (inputKey != ConsoleKey.D4);
-                //}
+                    ui.Print("Wrong. Please re-enter 1 - 3. ");
+                return;
             }
             catch
             {
                 throw new ArgumentException();
-
-
             }
+            //Om man inte vill söka så skriver man något tecken tex - eller x eller nåt annat
         }
 
         public void UnParkVehicle(string registerNumber)
         {
-            ui.Print("Please, enter your desired Vehcile to unpark it: ");
+            ui.Print("Please, enter your desired vehicle to unpark it: ");
                 
             if (garage.UnPark(registerNumber))
                 {

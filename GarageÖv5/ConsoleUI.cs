@@ -22,7 +22,7 @@ namespace GarageÖv5
 
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    Print($"Yo must enter an valid {prompt}");
+                    Print($"You must enter an valid {prompt}");
                 }
                 else
                 {
@@ -53,6 +53,13 @@ namespace GarageÖv5
         public string GetInt()
         {
             throw new NotImplementedException();
+        }
+
+        public void WaitForUser()
+        {
+            Print("Press something to continue. ");
+            ReadString();
+            
         }
 
         public string GetString()

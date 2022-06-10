@@ -73,7 +73,7 @@ namespace GarageÖv5
                         break;
                     default:
                         ui.ColorRed();
-                        ui.Print("Wrong input. Pleaase re-consider your input again. ");
+                        ui.Print("Wrong input. Pleaase re-consider your input again.");
                         Console.ResetColor();
                         break;
 
